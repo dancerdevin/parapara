@@ -29,7 +29,7 @@ class User(models.Model):
         null=False
     )
     characters = models.ForeignKey(
-        'Characters linked to this User',
+        'Characters',
         on_delete=models.CASCADE
     )
     display_name = models.CharField(
@@ -52,15 +52,15 @@ class Character(models.Model):
     # some or all of their Paradigm or Parameter data with them (or to make implementing that functionality easier).
     # And if a User wants to start completely from scratch without deleting any data, they can make a new Character.
     arcs = models.ForeignKey(
-        'Arcs linked to this Character',
+        'Arcs',
         on_delete=models.CASCADE
     )
     paradigms = models.ForeignKey(
-        'Paradigms linked to this Character',
+        'Paradigms',
         on_delete=models.CASCADE
     )
     parameters = models.ForeignKey(
-        'Parameters linked to this Character',
+        'Parameters',
         on_delete=models.CASCADE
     )
 
@@ -71,7 +71,7 @@ class Arc(models.Model):
     # then like chapters or paragraphs of a story, and so belong to an Arc. But the "stats," e.g., Paradigms and
     # Parameters, belong to the Character, not necessarily any particular Arc.
     event_logs = models.ForeignKey(
-        'EventLogs linked to this Arc',
+        'EventLogs',
         on_delete=models.CASCADE
     )
     description = models.CharField(
@@ -99,9 +99,7 @@ class Paradigm(models.Model):
         null=True
     )
     default_parameters = models.ManyToManyField(
-        # TODO: Double-check that this should be ManyToMany.
-        'Parameters linked by default with this Paradigm',
-        on_delete=models.DO_NOTHING
+        'Parameters'
     )
     level = models.IntegerField(
         'Experience level of this Paradigm',
@@ -160,13 +158,10 @@ class EventLog(models.Model):
     # The assumption of ParaPara is that every event represents some side of oneself, i.e., a Paradigm. Users are
     # expected to tag a Paradigm, which grants XP to that Paradigm and its Default_Parameters, when making an EventLog.
     # However, Users may directly tag Parameters as well or if they prefer (because why not?).
-    event_id = models.IntegerField(
-        'ID number',
-        blank=False,
-        null=False
-    )
+    # I shouldn't need to specify a model for event IDs because those will be automatically assigned as primary_key.
     name = models.CharField(
         'Event name',
+        max_length=30,
         blank=True,
         null=True
     )
@@ -176,22 +171,20 @@ class EventLog(models.Model):
         null=False
     )
     tagged_paradigms = models.ManyToManyField(
-        # TODO: Double check that this should be ManyToMany.
-        'Paradigms relevant to this event, if any; determines which ParaParas gain XP',
-        blank=True,
-        null=True
+        'Paradigms',
+        # Determines which Paradigms and default_parameters gain XP
+        blank=True
     )
     tagged_parameters = models.ManyToManyField(
-        # TODO: Double check that this should be ManyToMany.
-        'Parameters relevant to this event, if any; additive on any XP from default_parameters of tagged Paradigms',
-        blank=True,
-        null=True
+        'Parameters',
+        # Determines which Parameters gain XP, additive on any XP from default_parameters of tagged Paradigms
+        blank=True
     )
     significance_mod = models.IntegerField(
         'A modifier representing the significance of the event; functions as a XP multiplier',
         default=1
     )
-    content = models.CharField(
+    content = models.TextField(
         'The main content of the EventLog',
         blank=True,
         null=True
