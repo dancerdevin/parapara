@@ -29,7 +29,7 @@ class User(models.Model):
         null=False
     )
     characters = models.ForeignKey(
-        'Characters',
+        'core.Characters',
         on_delete=models.CASCADE
     )
     display_name = models.CharField(
@@ -52,15 +52,15 @@ class Character(models.Model):
     # some or all of their Paradigm or Parameter data with them (or to make implementing that functionality easier).
     # And if a User wants to start completely from scratch without deleting any data, they can make a new Character.
     arcs = models.ForeignKey(
-        'Arcs',
+        'core.Arcs',
         on_delete=models.CASCADE
     )
     paradigms = models.ForeignKey(
-        'Paradigms',
+        'core.Paradigms',
         on_delete=models.CASCADE
     )
     parameters = models.ForeignKey(
-        'Parameters',
+        'core.Parameters',
         on_delete=models.CASCADE
     )
 
@@ -71,7 +71,7 @@ class Arc(models.Model):
     # then like chapters or paragraphs of a story, and so belong to an Arc. But the "stats," e.g., Paradigms and
     # Parameters, belong to the Character, not necessarily any particular Arc.
     event_logs = models.ForeignKey(
-        'EventLogs',
+        'core.EventLogs',
         on_delete=models.CASCADE
     )
     description = models.CharField(
@@ -99,7 +99,7 @@ class Paradigm(models.Model):
         null=True
     )
     default_parameters = models.ManyToManyField(
-        'Parameters'
+        'core.Parameters'
     )
     level = models.IntegerField(
         'Experience level of this Paradigm',
@@ -171,12 +171,12 @@ class EventLog(models.Model):
         null=False
     )
     tagged_paradigms = models.ManyToManyField(
-        'Paradigms',
+        'core.Paradigms',
         # Determines which Paradigms and default_parameters gain XP
         blank=True
     )
     tagged_parameters = models.ManyToManyField(
-        'Parameters',
+        'core.py Parameters',
         # Determines which Parameters gain XP, additive on any XP from default_parameters of tagged Paradigms
         blank=True
     )
