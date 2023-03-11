@@ -31,7 +31,9 @@ class User(models.Model):
     )
     characters = models.ForeignKey(
         'Character',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     display_name = models.CharField(
         'User display name',
@@ -64,15 +66,21 @@ class Character(models.Model):
     )
     arcs = models.ForeignKey(
         'Arc',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     paradigms = models.ForeignKey(
         'Paradigm',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     parameters = models.ForeignKey(
         'Parameter',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
 
     def __str__(self):
@@ -92,7 +100,9 @@ class Arc(models.Model):
     )
     event_logs = models.ForeignKey(
         'EventLog',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True
     )
     description = models.CharField(
         'A brief, optional description of this Arc',
