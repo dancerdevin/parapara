@@ -45,12 +45,21 @@ class User(models.Model):
         null=True
     )
 
+    def __str__(self):
+        return self.username
+
 
 class Character(models.Model):
     # Characters will have Arcs, Paradigms, and Parameters. (EventLogs will be grouped under Arcs.)
     # The purpose of the Character/Arc distinction is to allow a User to "start fresh" while optionally carrying
     # some or all of their Paradigm or Parameter data with them (or to make implementing that functionality easier).
     # And if a User wants to start completely from scratch without deleting any data, they can make a new Character.
+    name = models.CharField(
+        'Character name',
+        max_length=30,
+        blank=False,
+        null=False
+    )
     arcs = models.ForeignKey(
         'Arc',
         on_delete=models.CASCADE
@@ -64,12 +73,20 @@ class Character(models.Model):
         on_delete=models.CASCADE
     )
 
+    def __str__(self):
+        return self.name
 
 class Arc(models.Model):
     # Arcs will have EventLogs and a Description. Eventually: Missions, MissionLogs, and Quest/QuestTrees, too.
     # Arcs are like storylines, i.e., "narrative arcs." The same Character may have multiple Arcs. EventLogs are
     # then like chapters or paragraphs of a story, and so belong to an Arc. But the "stats," e.g., Paradigms and
     # Parameters, belong to the Character, not necessarily any particular Arc.
+    name = models.CharField(
+        'Arc name',
+        max_length=30,
+        blank=False,
+        null=False
+    )
     event_logs = models.ForeignKey(
         'EventLog',
         on_delete=models.CASCADE
@@ -81,6 +98,8 @@ class Arc(models.Model):
         null=True
     )
 
+    def __str__(self):
+        return self.name
 
 class Paradigm(models.Model):
     # Paradigms will have a Name, Description, Default_Parameters (ForeignKey), Level, XP, Total_XP, and Next_Level_XP.
@@ -118,6 +137,8 @@ class Paradigm(models.Model):
         default=50
     )
 
+    def __str__(self):
+        return self.name
 
 class Parameter(models.Model):
     # Parameters will have a Name, Description, Level, XP, Total_XP, and Next_Level_XP.
@@ -152,6 +173,8 @@ class Parameter(models.Model):
         default=50
     )
 
+    def __str__(self):
+        return self.name
 
 class EventLog(models.Model):
     # EventLogs will have an ID, Name, Date, Tagged_Paradigms, Tagged_Parameters, Significance_Mod, and Entry_Text.
@@ -189,4 +212,7 @@ class EventLog(models.Model):
         blank=True,
         null=True
     )
+
+    def __str__(self):
+        return self.name
 
