@@ -18,6 +18,7 @@ class User(models.Model):
     # Users will have a username, password, Characters, and display name. (What other info might I want?)
     username = models.CharField(
         'Username',
+        default='New User',
         max_length=30,
         blank=False,
         null=False
@@ -56,6 +57,7 @@ class Character(models.Model):
     # And if a User wants to start completely from scratch without deleting any data, they can make a new Character.
     name = models.CharField(
         'Character name',
+        default='New Character',
         max_length=30,
         blank=False,
         null=False
@@ -83,6 +85,7 @@ class Arc(models.Model):
     # Parameters, belong to the Character, not necessarily any particular Arc.
     name = models.CharField(
         'Arc name',
+        default='New Arc',
         max_length=30,
         blank=False,
         null=False
@@ -107,6 +110,7 @@ class Paradigm(models.Model):
     # qualities. They are thus associated with default Parameters, like Fighters with Strength and Clerics with Wisdom.
     name = models.CharField(
         'Paradigm name',
+        default='New Paradigm',
         max_length=20,
         blank=False,
         null=False
@@ -146,6 +150,7 @@ class Parameter(models.Model):
     # The same Parameter may be relevant to, and so gain XP in concert with, multiple different Paradigms.
     name = models.CharField(
         'Parameter name',
+        default='New Parameter',
         max_length=20,
         blank=False,
         null=False
@@ -184,6 +189,7 @@ class EventLog(models.Model):
     # I shouldn't need to specify a model for event IDs because those will be automatically assigned as primary_key.
     name = models.CharField(
         'Event name',
+        default='New Event',
         max_length=30,
         blank=True,
         null=True
